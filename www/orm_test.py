@@ -1,12 +1,12 @@
 import asyncio
 import orm
-from models import User, Blog, Comment
+from models import User
 
-async def test(loop):
-    await orm.create_pool(loop, user='root', password='admin', db='tutorial')
+async def test(_loop):
+    await orm.create_pool(_loop, user='root', password='admin', db='tutorial')
     user = User(name='Admin2', email='test2@simiam.com', passwd='admin', image='about:blank')
-    affectRows = await user.save()
-    print("Success to save user, affectedRows: %s" % affectRows)
+    affect_rows = await user.save()
+    print("Success to save user, affectedRows: %s" % affect_rows)
 
 
 loop = asyncio.get_event_loop()
