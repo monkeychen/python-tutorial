@@ -1,6 +1,6 @@
 import os
 import re
-import urlparse
+import urllib.parse as urlparse
 import shutil
 import zlib
 from datetime import datetime, timedelta
@@ -13,7 +13,7 @@ from link_crawler import link_crawler
 
 class DiskCache:
     """
-    Dictionary interface that stores cached 
+    Dictionary interface that stores cached
     values in the file system rather than in memory.
     The file path is formed from an md5 hash of the key.
 
@@ -42,9 +42,9 @@ class DiskCache:
         self.expires = expires
         self.compress = compress
 
-    
     def __getitem__(self, url):
-        """Load data from disk for this URL
+        """
+        Load data from disk for this URL
         """
         path = self.url_to_path(url)
         if os.path.exists(path):
@@ -60,9 +60,9 @@ class DiskCache:
             # URL has not yet been cached
             raise KeyError(url + ' does not exist')
 
-
     def __setitem__(self, url, result):
-        """Save data to disk for this url
+        """
+        Save data to disk for this url
         """
         path = self.url_to_path(url)
         folder = os.path.dirname(path)
@@ -75,9 +75,9 @@ class DiskCache:
         with open(path, 'wb') as fp:
             fp.write(data)
 
-
     def __delitem__(self, url):
-        """Remove the value at this key and any empty parent sub-directories
+        """
+        Remove the value at this key and any empty parent sub-directories
         """
         path = self._key_path(url)
         try:
@@ -86,9 +86,9 @@ class DiskCache:
         except OSError:
             pass
 
-
     def url_to_path(self, url):
-        """Create file system path for this URL
+        """
+        Create file system path for this URL
         """
         components = urlparse.urlsplit(url)
         # when empty path set to /index.html
@@ -104,19 +104,18 @@ class DiskCache:
         filename = '/'.join(segment[:255] for segment in filename.split('/'))
         return os.path.join(self.cache_dir, filename)
 
-
     def has_expired(self, timestamp):
-        """Return whether this timestamp has expired
+        """
+        Return whether this timestamp has expired
         """
         return datetime.utcnow() > timestamp + self.expires
 
-
     def clear(self):
-        """Remove all the cached values
+        """
+        Remove all the cached values
         """
         if os.path.exists(self.cache_dir):
             shutil.rmtree(self.cache_dir)
-
 
 
 if __name__ == '__main__':
