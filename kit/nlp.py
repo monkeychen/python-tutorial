@@ -16,19 +16,23 @@ def processData(srcDir, outputFile=None, stopWords=None, encoding="UTF-8"):
             print("filePath =", filePath)
             flag = fileName.split("-")[0]
             articleLine = flag + " "
-            try:
-                with open(filePath, mode='r', encoding=encoding) as articleFile:
-                    for line in articleFile.readlines():
+            with open(filePath, mode='r', encoding=encoding) as articleFile:
+                line = ""
+                try:
+                    line = articleFile.readline()
+                    while line:
                         line = line.strip()
                         line = line.replace(" ", "")
                         words = [word for word in jieba.cut(line) if word not in stopWords]
                         articleLine += " ".join(set(words))
+                        line = articleFile.readline()
+                except UnicodeDecodeError:
+                    print("UnicodeDecodeError: path = [%s], line = %s" % (filePath, line))
+                    errLog.writelines(filePath + "\n")
 
-                    print(articleLine + "\n")
-                    outputFile.write(articleLine + "\n")
-            except UnicodeDecodeError:
-                print("UnicodeDecodeError: path = [%s]" % filePath)
-                errLog.writelines(filePath + "\n")
+            articleLine = articleLine + "\n"
+            print(articleLine)
+            outputFile.write(articleLine)
             del articleLine
 
 
