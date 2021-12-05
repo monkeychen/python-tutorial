@@ -142,6 +142,7 @@ tests/**/coverage/
 logs/
 application-prod.yml
 upload/
+src/pyexam/answer/
 **/sklearn/**/*.csv
 **/sklearn/**/*.pkl
 **/sklearn/**/*.sql
