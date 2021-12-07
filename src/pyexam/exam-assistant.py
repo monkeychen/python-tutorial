@@ -128,7 +128,7 @@ class ExamAssistant(object):
             rar_cnt = 0
             rar_file_path = None
             for stu_file_name in os.listdir(stu_main_dir_path):
-                if not stu_file_name.endswith("rar") and not stu_file_name.endswith("zip"):
+                if not stu_file_name.endswith("rar"):
                     continue
                 rar_cnt += 1
                 if rar_cnt > 1:
@@ -196,7 +196,7 @@ class ExamAssistant(object):
     def _is_matched_file(self, file_name: str):
         matched = False
         for conf in self.question_conf:
-            matched = file_name.startswith(conf.get("begin")) and file_name.endswith(conf.get("begin"))
+            matched = file_name.startswith(conf.get("begin")) and file_name.endswith(conf.get("end"))
             if matched:
                 break
         return matched
