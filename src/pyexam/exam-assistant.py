@@ -231,6 +231,36 @@ class ExamAssistant(object):
             self.evaluate()
 
 
+class PythonQuestionEval(object):
+
+    question_conf = ExamAssistant.question_conf
+
+    def __init__(self, answer_dir_path=None):
+        if answer_dir_path is None:
+            answer_dir_path = f"{os.getcwd()}/upload/temp"
+        self.answer_dir_path = answer_dir_path
+
+    def eval_question_1(self, question_file_path):
+        pass
+
+    def eval_question_2(self, question_file_path):
+        pass
+
+    def eval_question_3(self, question_file_path):
+        pass
+
+    def eval_question_4(self, question_file_path):
+        pass
+
+    def eval_question_5(self, question_file_path):
+        pass
+
+    def evaluate(self):
+        for stu_main_dir_name in os.listdir(self.answer_dir_path):
+            stu_main_dir_path = f"{self.answer_dir_path}/{stu_main_dir_name}"
+
+
+
 if __name__ == "__main__":
     win = tk.Tk()
     GUI = ExamAssistant(win)
