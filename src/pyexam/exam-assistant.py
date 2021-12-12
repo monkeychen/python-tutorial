@@ -120,7 +120,7 @@ class ExamAssistant(object):
         student_list = []
         for stu_main_dir_name in dir_list:
             stu_main_dir_path = f"{self.upload_dir}/{stu_main_dir_name}"
-            if "temp" == stu_main_dir_name or os.path.isfile(stu_main_dir_path) or len(os.listdir(stu_main_dir_path)) == 0:
+            if "temp" == stu_main_dir_name or "py-code" == stu_main_dir_name or os.path.isfile(stu_main_dir_path) or len(os.listdir(stu_main_dir_path)) == 0:
                 print(f"{stu_main_dir_path} is file or is an empty directory or a temp dir!")
                 continue
             student = Student(name=stu_main_dir_name, std_answer=self.std_answer)
