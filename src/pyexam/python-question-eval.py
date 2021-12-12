@@ -90,8 +90,11 @@ class PythonQuestionEval(object):
             score = 5
         else:
             target_txt = self.clear_blank_in_file(question_file_path)
-            score = 2 if target_txt.find("dictMenu.values()") != -1 else 0
-            score += (3 if (target_txt.find("total+=i") != -1 or target_txt.find("total=total+i") != -1) else 0)
+            score = (2 if (target_txt.find("dictMenu.values()") != -1 or target_txt.find("dictMenu") != -1) else 0)
+            score += (3 if (target_txt.find("total+=i") != -1
+                            or target_txt.find("total=total+i") != -1
+                            or target_txt.find("total+=dictMenu[i]") != -1
+                            or target_txt.find("total=total+dictMenu[i]") != -1) else 0)
         return 1, score
 
     def eval_question_2(self, stu_id, question_file_path, q_conf):
