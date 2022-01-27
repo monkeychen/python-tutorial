@@ -29,15 +29,18 @@ class PythonQuestionEval(object):
             "output": ["5", "7"]
         },
         {
-            "begin": "程序填空题02", "end": "txt", "method": "eval_question_2",
-            "input": ["", ""]
+            "begin": "程序填空题02", "end": "txt", "method": "eval_question_2"
         },
         {
             "begin": "程序填空题03", "end": "txt", "method": "eval_question_3",
             "input": ["飞行学员需学习量子计算在航空航天领域的应用。", "aaa量子bbb飞行ccc航空ddd"],
             "output": ["*学员需学习*计算在*航天领域的应用。", "aaa*bbb*ccc*ddd"]
         },
-        {"begin": "综合题01", "end": "txt", "method": "eval_question_4"},
+        {
+            "begin": "综合题01", "end": "txt", "method": "eval_question_4",
+            "input": ["5 3 8 10 5 7 2", "1 3 9 3 7 9 6"],
+            "output": ["[5, 3, 8, 10, 5, 7, 2][10, 8, 7, 5, 3, 2]", "[1, 3, 9, 3, 7, 9, 6][9, 7, 6, 3, 1]"]
+        },
         {"begin": "综合题02", "end": "txt", "method": "eval_question_5"}
     ]
 
@@ -126,6 +129,28 @@ class PythonQuestionEval(object):
         return 3, score
 
     def eval_question_4(self, stu_id, question_file_path, q_conf):
+        tmp_py_path = self.generate_callable_py(stu_id, question_file_path, 4)
+        # 第一步：通过执行py文件验证程序逻辑是否正确
+        step1_flag = False
+        try:
+            exe_results = []
+            for in_args in q_conf.get("input"):
+                cmd = f"python3 {tmp_py_path} \"{in_args}\""
+                out_str = self.exec_shell_cmd(cmd)
+                exe_results.append(self.extractChar(out_str, ignored_chars="\r\n :\t"))
+
+            ans = self.extractChar(str(q_conf.get("output")), ignored_chars="\r\n :\t")
+            stu_ans = self.extractChar(str(exe_results))
+            step1_flag = operator.eq(ans, stu_ans)
+
+        except BaseException as e:
+            print(str(e))
+
+        if step1_flag:
+            score = 10
+        else:
+            target_txt = self.clear_blank_in_file(question_file_path)
+            score = 5 if target_txt.find("text=text.replace(word,'*')") != -1 else 0
         return 4, 0
 
     def eval_question_5(self, stu_id, question_file_path, q_conf):
@@ -173,6 +198,11 @@ class PythonQuestionEval(object):
 
     def datetime_to_str(self, dt, fmt=FMT_DEFAULT):
         return dt.strftime(fmt)
+
+    def extractChar(self, in_str: str, ignored_chars="\r\n "):
+        for c in ignored_chars:
+            in_str = in_str.replace(c, '')
+        return ''.join(list(filter(str.isascii, in_str)))
 
 
 if __name__ == "__main__":
