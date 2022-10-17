@@ -1,0 +1,63 @@
+前置准备：安装anaconda 并打开 anaconda prompt
+
+==========1. 创建虚拟环境=========
+
+conda create -n ml python==3.8.5    #其中ml是虚拟环境的名称，可以自行修改
+
+conda activate ml    #激活进入创建好的虚拟环境
+
+=============2. 安装 TensorFlow和sklearn 框架===============
+
+pip install scikit-learn 
+
+pip install tensorflow   #如果pip安装较慢可加上后缀：-i https://pypi.tuna.tsinghua.edu.cn/simple 
+
+# 因为 tf==2 与 h5py==3不兼容, 需要先卸载 h5py 然后安装 h5py==2.10.0
+
+pip uninstall h5py
+
+pip install h5py==2.10.0
+
+==========3. 配置 kernel ============
+
+pip install jupyter 
+
+python -m ipykernel install --user --name ml
+
+jupyter kernelspec list    # 检查是否成功安装Kernel
+
+==========4. 验证是否成功安装 TensorFlow2/sklearn ==============
+
+python -c "import tensorflow as tf;print(tf.__version__)”  #返回：2.10.0
+
+python -c "import sklearn;print(sklearn.__version__)"   #返回：1.1.2
+
+============================================================
+
+其他tips:
+
+#如果你想使用 jupyter notebook，输入：
+
+jupyter notebook
+
+#如果你想退出当前虚拟环境，输入：
+conda deactivate  
+
+#在实验过程中，如果遇到报错提示"no module found..." ，使用"pip install"安装相关缺失依赖库，例如:
+pip install matplotlib
+
+pip install missingno
+
+pip install xgboost
+
+pip install imblearn
+
+pip install numpy
+
+pip install pandas 
+
+#移除kernel
+jupyter kernelspec uninstall ml
+
+#如果你想要删除虚拟环境，输入：
+conda remove -n ml --all
