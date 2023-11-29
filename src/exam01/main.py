@@ -96,7 +96,7 @@ def main1():
     btn_comprehensive_2.pack(side=tk.TOP, fill=tk.X, pady=button_pad)
 
     rootmain.mainloop()
+
+
 if __name__ == '__main__':
-
-
     main1()

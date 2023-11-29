@@ -130,5 +130,6 @@ def judge_main(win_opened):
     root.protocol("WM_DELETE_WINDOW", lambda: on_window_close(win_opened))
     root.mainloop()
 
+
 if __name__ == '__main__':
     judge_main()
