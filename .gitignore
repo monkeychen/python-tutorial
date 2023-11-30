@@ -147,3 +147,4 @@ src/pyexam/answer/
 **/sklearn/**/*.pkl
 **/sklearn/**/*.sql
 **/sklearn/**/*.zip
+temp/
